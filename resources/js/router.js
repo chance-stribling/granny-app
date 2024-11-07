@@ -6,8 +6,40 @@ const routes = [
         component: () => import("./pages/LandingPage.vue"),
     },
     {
-        path: "/test",
-        component: () => import("./pages/TestPage.vue"),
+        path: "/dashboard",
+        component: () => import("./pages/DashboardPage.vue"),
+    },
+    {
+        path: "/profile",
+        component: () => import("./pages/ProfilePage.vue"),
+    },
+    {
+        path: "/starch-pears",
+        component: () => import("./pages/analyses/StarchPearsPage.vue"),
+    },
+    {
+        path: "/blush-pears",
+        component: () => import("./pages/analyses/BlushPearsPage.vue"),
+    },
+    {
+        path: "/starch-apples",
+        component: () => import("./pages/analyses/StarchApplesPage.vue"),
+    },
+    {
+        path: "/superficial-scald-apples",
+        component: () => import("./pages/analyses/SupScaldApplesPage.vue"),
+    },
+    {
+        path: "/segmentation",
+        component: () => import("./pages/SegmentationPage.vue"),
+    },
+    {
+        path: "/fruit-rating",
+        component: () => import("./pages/FruitRatingPage.vue"),
+    },
+    {
+        path: "/summary",
+        component: () => import("./pages/SummaryPage.vue"),
     },
 ];
 
