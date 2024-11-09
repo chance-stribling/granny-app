@@ -26,7 +26,8 @@ export default {
             },
         ],
     }),
-
+    mounted() {},
+    methods: {},
     watch: {
         group() {
             this.drawer = false;
@@ -37,6 +38,7 @@ export default {
 
 <template>
     <TopBar />
+
     <div class="main">
         <v-card class="card pa-2" color="primary">
             <div class="text-h5 mb-2">New Analysis</div>
@@ -55,6 +57,7 @@ export default {
 
 <style scoped>
 .main {
+margin-top: 64px;
     min-height: 100vh;
     width: 100vw;
     display: flex;

@@ -1,9 +1,12 @@
 <template>
-
-        <v-btn class="btn" icon="mdi-arrow-left" @click="this.$router.go(-1)"></v-btn>
+    <v-btn
+        class="btn"
+        icon="mdi-arrow-left"
+        @click="this.$router.go(-1)"
+    ></v-btn>
 </template>
 <style scoped>
-.btn{
+.btn {
     height: 50px;
     width: 50px;
     max-height: 50px;
@@ -12,5 +15,4 @@
     left: 1rem;
     bottom: 1rem;
 }
-
 </style>

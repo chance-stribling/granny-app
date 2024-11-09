@@ -3,12 +3,11 @@ import TopBar from "../components/TopBar.vue";
 import Chart from "../components/Chart.vue";
 import BackButton from "../components/BackButton.vue";
 
-
 export default {
     components: {
         TopBar,
         Chart,
-        BackButton
+        BackButton,
     },
     data: () => ({
         drawer: false,
@@ -20,7 +19,7 @@ export default {
 
 <template>
     <TopBar />
-    <BackButton/>
+    <BackButton />
     <div class="main">
         <v-card
             class="card pa-2 d-flex flex-column justify-center"

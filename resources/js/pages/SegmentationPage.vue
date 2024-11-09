@@ -5,7 +5,7 @@ import BackButton from "../components/BackButton.vue";
 export default {
     components: {
         TopBar,
-        BackButton
+        BackButton,
     },
     data: () => ({
         drawer: false,

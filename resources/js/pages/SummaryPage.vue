@@ -18,16 +18,13 @@ export default {
 </script>
 
 <template>
-    <BackButton/>
+    <BackButton />
     <TopBar />
     <div class="main">
-        <v-card
-            class="card pa-2 "
-            color="primary"
-        >
+        <v-card class="card pa-2" color="primary">
             <div class="text-h5 mb-5">Analysis #000001</div>
             <div class="d-flex flex-row justify-center">
-                <div class="d-flex flex-column w-50 ">
+                <div class="d-flex flex-column w-50">
                     <v-label>Label</v-label>
                     <div class="text-h6 mb-2">Label</div>
 

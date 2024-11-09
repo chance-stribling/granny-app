@@ -14,6 +14,4 @@
     </v-app>
 </template>
 
-<style>
-
-</style>
+<style></style>

@@ -1,6 +1,6 @@
 <script>
-import TopBar from "../../components/TopBar.vue";
-import BackButton from "../../components/BackButton.vue";
+import TopBar from "../components/TopBar.vue";
+import BackButton from "../components/BackButton.vue";
 export default {
     components: {
         TopBar,
@@ -11,6 +11,18 @@ export default {
         group: null,
         show: false,
         isMobile: false,
+        isSelecting: false,
+        selectedFile: null,
+        url: null,
+        a1_model: "",
+        custom_id: "",
+        analysis: [],
+        models: [
+            {
+                title: "Pome Fruit - Apple",
+                value: "pome_fruit-v1_0",
+            },
+        ],
         analyses: [
             {
                 id: "000001",
@@ -95,6 +107,60 @@ export default {
                 this.isMobile = false;
             }
         },
+        handleFileImport() {
+            this.isSelecting = true;
+
+            // After obtaining the focus when closing the FilePicker, return the button state to normal
+            window.addEventListener(
+                "focus",
+                () => {
+                    this.isSelecting = false;
+                },
+                { once: true },
+            );
+
+            // Trigger click on the FileInput
+            this.$refs.uploader.click();
+        },
+        onFileChanged(e) {
+            this.selectedFile = e.target.files[0];
+            this.url = URL.createObjectURL(this.selectedFile);
+            console.log(this.selectedFile);
+            // Do whatever you need with the file, liek reading it with FileReader
+        },
+        async uploadImage() {
+            var formData = new FormData();
+            formData.append("image", this.selectedFile);
+            formData.append("custom_id", this.custom_id);
+            formData.append("a1_model", this.a1_model);
+            console.log(formData);
+            try {
+                const response = await axios.post(
+                    "http://127.0.0.1:8001/api/v1/newAnalysis",
+                    formData,
+                    {
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                        },
+                    },
+                );
+                this.analysis = response.data;
+                console.log("Image uploaded successfully:", this.analysis.id);
+                // this.$router.push('/segmentation/'+this.analysis.id);
+            } catch (error) {
+                console.error("Error uploading image:", error);
+            }
+        },
+        getImage() {
+            axios
+                .get("http://127.0.0.1:8001/api/v1/getAnalysis", {
+                    id: "",
+                })
+                .then((response) => {
+                    this.lastMatchCreated = response.data;
+                })
+                .catch((error) => console.log(error));
+        },
     },
 };
 </script>
@@ -104,41 +170,40 @@ export default {
         <BackButton />
         <TopBar />
         <v-card color="primary" class="card pa-2">
-            <div class="d-flex flex-row align-center justify-between">
-                <div class="text-h5 mb-5">Analysis History</div>
-                <v-btn
-                    color="secondary"
-                    @click="this.$router.push('/new-analysis')"
-                    >New Analysis</v-btn
-                >
+            <div class="text-h5 mb-5">New Analysis</div>
+            <div class="d-flex flex-column align-center justify-center">
+                <img v-if="url" :src="url" class="img" />
+                <div class="d-flex justify-evenly">
+                    <v-btn
+                        color="secondary"
+                        :loading="isSelecting"
+                        @click="this.handleFileImport()"
+                    >
+                        Upload File
+                    </v-btn>
+                    <input
+                        ref="uploader"
+                        class="d-none"
+                        type="file"
+                        @change="onFileChanged"
+                    />
+                </div>
             </div>
-            <v-card class="inner-card pa-2">
-                <v-card
-                    v-for="analysis in analyses"
-                    class="history-card mb-2 bg-secondary"
-                    @click="this.$router.push('/summary')"
-                >
-                    <div class="analysis-data">
-                        <div class="d-flex flex-column w-75">
-                            <div class="text-h6 font-weight-bold">
-                                Analysis: {{ analysis.id }}
-                            </div>
-                            <div class="text-p">
-                                Submitted by {{ analysis.user }}
-                            </div>
-                        </div>
-                        <div
-                            class="d-flex flex-column justify-center align-center w-25"
-                        >
-                            <img
-                                class="image"
-                                src="/public/assets/placeholder.svg"
-                                alt=""
-                            />
-                        </div>
-                    </div>
-                </v-card>
-            </v-card>
+            <v-label>Segmentation Model</v-label>
+            <v-select
+                v-model="this.a1_model"
+                :items="models"
+                bg-color="white"
+            ></v-select>
+            <v-label>Lot Number or Sample ID</v-label>
+            <v-text-field
+                bg-color="white"
+                class="text-field"
+                v-model="this.custom_id"
+            ></v-text-field>
+            <v-btn color="secondary" @click="this.uploadImage()">
+                        Submit for Segmentation
+                    </v-btn>
         </v-card>
     </div>
 </template>
@@ -184,7 +249,6 @@ export default {
     height: fit-content;
     width: 500px;
     margin-top: 1rem;
-    max-height: 500px;
 }
 .logo {
     height: auto;
@@ -206,6 +270,10 @@ export default {
 .btn {
     height: 60px;
     width: 100%;
+}
+.img {
+    height: 500px;
+    width: auto;
 }
 @media only screen and (max-width: 1000px) {
     .card {

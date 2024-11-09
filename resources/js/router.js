@@ -30,7 +30,7 @@ const routes = [
         component: () => import("./pages/analyses/SupScaldApplesPage.vue"),
     },
     {
-        path: "/segmentation",
+        path: "/segmentation/:analysis_id",
         component: () => import("./pages/SegmentationPage.vue"),
     },
     {
@@ -40,6 +40,10 @@ const routes = [
     {
         path: "/summary",
         component: () => import("./pages/SummaryPage.vue"),
+    },
+    {
+        path: "/new-analysis",
+        component: () => import("./pages/NewAnalysisPage.vue"),
     },
 ];
 
