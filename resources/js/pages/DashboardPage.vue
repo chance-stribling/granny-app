@@ -57,7 +57,6 @@ export default {
 
 <style scoped>
 .main {
-margin-top: 64px;
     min-height: 100vh;
     width: 100vw;
     display: flex;
